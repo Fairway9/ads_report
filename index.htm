@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tenant Calling Campaign Report - Fairway Nine Mall</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Bebas+Neue&family=Archivo+Black&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #234748;
+            --title-gold: #A98250;
+            --secondary-light: #E7E3DB;
+            --secondary-warm: #DAC2AA;
+            --accent-teal: #2d5f61;
+            --accent-gold-dark: #8b6b3e;
+            --grey-dark: #2a2a2a;
+            --grey-mid: #666;
+            --white: #ffffff;
+            --black: #1a1a1a;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, #1a3839 100%);
+            color: var(--white);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(35, 71, 72, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(218, 194, 170, 0.2);
+            z-index: 1000;
+            padding: 20px 0;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            height: 50px;
+            width: auto;
+            object-fit: contain;
+        }
+        
+        .logo-text {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, var(--title-gold), var(--secondary-warm));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-tab {
+            padding: 12px 28px;
+            border: none;
+            background: transparent;
+            color: var(--grey-mid);
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .nav-tab:hover {
+            color: var(--white);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-tab.active {
+            color: var(--white);
+            background: linear-gradient(135deg, var(--accent-teal), var(--primary));
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 120px 40px 60px;
+        }
+
+        /* Pages */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Header */
+        .page-header {
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        .page-title {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 72px;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--title-gold) 0%, var(--secondary-warm) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+        }
+
+        .page-subtitle {
+            font-size: 20px;
+            color: var(--grey-mid);
+            font-weight: 300;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(231, 227, 219, 0.08) 0%, rgba(218, 194, 170, 0.05) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(218, 194, 170, 0.2);
+            border-radius: 20px;
+            padding: 32px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--title-gold), var(--secondary-warm));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(169, 130, 80, 0.4);
+            box-shadow: 0 20px 60px rgba(169, 130, 80, 0.2);
+        }
+
+        .stat-icon {
+            font-size: 32px;
+            margin-bottom: 16px;
+            opacity: 0.8;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--grey-mid);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 48px;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--title-gold) 0%, var(--secondary-warm) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-subtext {
+            font-size: 13px;
+            color: var(--grey-mid);
+            font-weight: 300;
+        }
+
+        /* Chart Section */
+        .chart-section {
+            background: linear-gradient(135deg, rgba(231, 227, 219, 0.08) 0%, rgba(218, 194, 170, 0.05) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(218, 194, 170, 0.2);
+            border-radius: 24px;
+            padding: 48px;
+            margin-bottom: 40px;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chart-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 32px;
+            letter-spacing: 2px;
+            color: var(--white);
+        }
+
+        .chart-tag {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, var(--accent-teal), var(--primary));
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Bar Chart */
+        .bar-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .bar-item {
+            position: relative;
+        }
+
+        .bar-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .bar-label-text {
+            color: var(--white);
+        }
+
+        .bar-label-value {
+            color: var(--title-gold);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+        }
+
+        .bar-container {
+            height: 48px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-teal), var(--primary));
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 20px;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bar-fill::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            to {
+                left: 100%;
+            }
+        }
+
+        .bar-percentage {
+            color: var(--white);
+            font-weight: 700;
+            font-size: 14px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Insights Grid */
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .insight-card {
+            background: linear-gradient(135deg, rgba(231, 227, 219, 0.1) 0%, rgba(218, 194, 170, 0.05) 100%);
+            border: 1px solid rgba(218, 194, 170, 0.2);
+            border-radius: 20px;
+            padding: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .insight-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, var(--title-gold) 0%, transparent 70%);
+            opacity: 0.05;
+        }
+
+        .insight-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .insight-icon-lg {
+            font-size: 40px;
+            filter: drop-shadow(0 4px 12px rgba(169, 130, 80, 0.3));
+        }
+
+        .insight-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 24px;
+            letter-spacing: 1px;
+            color: var(--white);
+        }
+
+        .insight-text {
+            color: var(--grey-mid);
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        .insight-highlight {
+            color: var(--title-gold);
+            font-weight: 600;
+        }
+
+        /* Comparison Grid */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+
+        .comparison-card {
+            background: linear-gradient(135deg, rgba(231, 227, 219, 0.08) 0%, rgba(218, 194, 170, 0.05) 100%);
+            border: 1px solid rgba(218, 194, 170, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .comparison-card.winner {
+            border: 2px solid var(--title-gold);
+            box-shadow: 0 0 40px rgba(169, 130, 80, 0.25);
+        }
+
+        .comparison-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 6px 14px;
+            background: var(--title-gold);
+            color: var(--primary);
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .comparison-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            letter-spacing: 2px;
+            margin-bottom: 24px;
+            color: var(--white);
+        }
+
+        .comparison-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .comparison-stat:last-child {
+            border-bottom: none;
+        }
+
+        .comparison-stat-label {
+            color: var(--grey-mid);
+            font-size: 14px;
+        }
+
+        .comparison-stat-value {
+            color: var(--white);
+            font-weight: 600;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            letter-spacing: 1px;
+        }
+
+        /* Key Recommendations */
+        .recommendations {
+            background: linear-gradient(135deg, var(--accent-teal) 0%, var(--primary) 100%);
+            border-radius: 24px;
+            padding: 48px;
+            margin-top: 60px;
+        }
+
+        .recommendations-title {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 36px;
+            margin-bottom: 32px;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        .recommendation-list {
+            display: grid;
+            gap: 20px;
+        }
+
+        .recommendation-item {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .recommendation-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateX(8px);
+        }
+
+        .recommendation-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 32px;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1;
+        }
+
+        .recommendation-content {
+            flex: 1;
+        }
+
+        .recommendation-title-text {
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .recommendation-desc {
+            opacity: 0.9;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        /* Budget Overview */
+        .budget-overview {
+            background: linear-gradient(135deg, rgba(169, 130, 80, 0.15) 0%, rgba(218, 194, 170, 0.08) 100%);
+            border: 2px solid var(--title-gold);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .budget-overview::before {
+            content: '💰';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 120px;
+            opacity: 0.1;
+        }
+
+        .budget-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 24px;
+            color: var(--title-gold);
+            margin-bottom: 24px;
+            letter-spacing: 2px;
+        }
+
+        .budget-bars {
+            display: grid;
+            gap: 16px;
+        }
+
+        .budget-bar-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .budget-bar-label {
+            width: 200px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .budget-bar-container {
+            flex: 1;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .budget-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--title-gold), var(--accent-gold-dark));
+            border-radius: 16px;
+            transition: width 1.5s ease;
+        }
+
+        .budget-bar-value {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            letter-spacing: 1px;
+            color: var(--title-gold);
+            min-width: 120px;
+            text-align: right;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 42px;
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .insights-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-section {
+                padding: 32px 24px;
+            }
+
+            .container {
+                padding: 100px 24px 40px;
+            }
+        }
+
+        /* Leads Evidence Button */
+        .leads-evidence {
+            background: linear-gradient(135deg, var(--title-gold) 0%, var(--accent-gold-dark) 100%);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 40px;
+            text-align: center;
+            border: 2px solid var(--title-gold);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .leads-evidence::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        .leads-evidence-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .leads-evidence-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            color: var(--primary);
+            margin-bottom: 12px;
+            letter-spacing: 2px;
+        }
+
+        .leads-evidence-desc {
+            color: var(--primary);
+            margin-bottom: 24px;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .leads-evidence-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 40px;
+            background: var(--primary);
+            color: var(--title-gold);
+            border: none;
+            border-radius: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .leads-evidence-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+            background: var(--accent-teal);
+            color: var(--white);
+        }
+
+        .leads-evidence-button::after {
+            content: '→';
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .leads-evidence-button:hover::after {
+            transform: translateX(4px);
+        }
+
+        /* Loading Animation */
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <!-- Replace YOUR_LOGO_URL_HERE with your actual logo URL -->
+            <img src="https://www.fairwayninemall.com/wp-content/uploads/2023/08/logo.png" alt="Fairway Nine Mall" class="logo">
+            <!-- If logo URL not available yet, you can use text fallback by uncommenting below -->
+            <!-- <div class="logo-text">FAIRWAY NINE</div> -->
+            <div class="nav-tabs">
+                <button class="nav-tab active" onclick="showPage('overview')">Dashboard</button>
+                <button class="nav-tab" onclick="showPage('frosty')">Frosty Market</button>
+                <button class="nav-tab" onclick="showPage('lunar')">Golden Lunar</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- PAGE 1: OVERVIEW -->
+        <div id="overview" class="page active">
+            <div class="page-header">
+                <h1 class="page-title">Tenant Calling Campaign</h1>
+                <p class="page-subtitle">Performance Report • Dec 2025 - Feb 2026</p>
+            </div>
+
+            <!-- Budget Overview -->
+            <div class="budget-overview">
+                <div class="budget-title">💰 Budget Allocation & Usage</div>
+                <div class="budget-bars">
+                    <div class="budget-bar-item">
+                        <div class="budget-bar-label">Total Allocated</div>
+                        <div class="budget-bar-container">
+                            <div class="budget-bar-fill" style="width: 100%;"></div>
+                        </div>
+                        <div class="budget-bar-value">Rp 500,000</div>
+                    </div>
+                    <div class="budget-bar-item">
+                        <div class="budget-bar-label">Campaign Spent</div>
+                        <div class="budget-bar-container">
+                            <div class="budget-bar-fill" style="width: 90.1%;"></div>
+                        </div>
+                        <div class="budget-bar-value">Rp 450,449</div>
+                    </div>
+                    <div class="budget-bar-item">
+                        <div class="budget-bar-label">Tax (VAT 12%)</div>
+                        <div class="budget-bar-container">
+                            <div class="budget-bar-fill" style="width: 9.9%;"></div>
+                        </div>
+                        <div class="budget-bar-value">Rp 49,549</div>
+                    </div>
+                    <div class="budget-bar-item">
+                        <div class="budget-bar-label">Remaining Balance</div>
+                        <div class="budget-bar-container">
+                            <div class="budget-bar-fill" style="width: 0.0004%;"></div>
+                        </div>
+                        <div class="budget-bar-value">Rp 2</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leads Evidence Section -->
+            <div class="leads-evidence">
+                <div class="leads-evidence-icon">📸</div>
+                <div class="leads-evidence-title">Leads Inquiry Evidence</div>
+                <div class="leads-evidence-desc">
+                    View all screenshots and documentation of leads who made inquiries during the campaign period
+                </div>
+                <a href="https://drive.google.com/drive/folders/1ZhuGYTU2eXLVoSZ2iu55YKmRCg6r8gmZ?usp=sharing" 
+                   target="_blank" 
+                   class="leads-evidence-button">
+                    View Leads Screenshots
+                </a>
+            </div>
+
+            <!-- Combined Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-label">Total Reach</div>
+                    <div class="stat-value">13,502</div>
+                    <div class="stat-subtext">Potential tenant owners reached</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">👁️</div>
+                    <div class="stat-label">Total Impressions</div>
+                    <div class="stat-value">17,306</div>
+                    <div class="stat-subtext">Ad views across campaigns</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🖱️</div>
+                    <div class="stat-label">Total Clicks</div>
+                    <div class="stat-value">219</div>
+                    <div class="stat-subtext">Interested prospects clicked</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💵</div>
+                    <div class="stat-label">Avg CPC</div>
+                    <div class="stat-value">Rp 2,057</div>
+                    <div class="stat-subtext">Cost per qualified click</div>
+                </div>
+            </div>
+
+            <!-- Campaign Comparison -->
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h3 class="comparison-title">🎄 Frosty Christmas Market</h3>
+                    <div class="comparison-stat">
+                        <span class="comparison-stat-label">Budget Spent</span>
+                        <span class="comparison-stat-value">Rp 159,119</span>
+                    </div>
+                    <div class="comparison-stat">
+                        <span class="comparison-stat-label">Reach</span>
+                        <span class="comparison-stat-value">4,032</span>
+                    </div>
+                    <div class="comparison-stat">
+                        <span class="comparison-stat-label">Clicks</span>
+                        <span class="comparison-stat-value">103</span>
+                    </div>
+                    <div class="comparison-stat">
+                        <span class="comparison-stat-label">CPC</span>
+                        <span class="comparison-stat-value">Rp 1,545</span>
+                    </div>
+                    <div class="comparison-stat">
+                        <span class="comparison-stat-label">CTR</span>
+                        <span class="comparison-stat-value">2.08%</span>
+                    </div>
+                </div>
+
+                <div class="comparison-card winner">
+                    <div class="comparison-badge">Best Scale</div>
+                    <h3 class="comparison-title">🧧 Golden Lunar Serenity</h3>
+                    <div class="comparison-stat">
+                        <span class="comparison-stat-label">Budget Spent</span>
+                        <span class="comparison-stat-value">Rp 291,330</span>
+                    </div>
+                    <div class="comparison-stat">
+                        <span class="comparison-stat-label">Reach</span>
+                        <span class="comparison-stat-value">9,470</span>
+                    </div>
+                    <div class="comparison-stat">
+                        <span class="comparison-stat-label">Clicks</span>
+                        <span class="comparison-stat-value">116</span>
+                    </div>
+                    <div class="comparison-stat">
+                        <span class="comparison-stat-label">CPC</span>
+                        <span class="comparison-stat-value">Rp 2,511</span>
+                    </div>
+                    <div class="comparison-stat">
+                        <span class="comparison-stat-label">CTR</span>
+                        <span class="comparison-stat-value">0.94%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Target Audience Insights -->
+            <div class="chart-section">
+                <div class="chart-header">
+                    <h2 class="chart-title">🎯 Ideal Tenant Owner Profile</h2>
+                    <div class="chart-tag">Combined Data</div>
+                </div>
+                <div class="bar-chart">
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span class="bar-label-text">👔 Age 35-44 (Established Business Owners)</span>
+                            <span class="bar-label-value">38.8%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 38.8%;">
+                                <span class="bar-percentage">85 clicks</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span class="bar-label-text">🚀 Age 25-34 (Young Entrepreneurs)</span>
+                            <span class="bar-label-value">33.8%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 33.8%;">
+                                <span class="bar-percentage">74 clicks</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span class="bar-label-text">👩‍💼 Female Business Owners</span>
+                            <span class="bar-label-value">74.4%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 74.4%;">
+                                <span class="bar-percentage">163 clicks</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span class="bar-label-text">👨‍💼 Male Business Owners</span>
+                            <span class="bar-label-value">23.7%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 23.7%;">
+                                <span class="bar-percentage">52 clicks</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Insights -->
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <div class="insight-icon-lg">🎯</div>
+                        <div class="insight-title">Prime Target Identified</div>
+                    </div>
+                    <div class="insight-text">
+                        <span class="insight-highlight">Female business owners aged 25-44</span> represent 72% of total engagement. Mereka menunjukkan minat tinggi terhadap event-based marketing opportunities di mall.
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <div class="insight-icon-lg">💡</div>
+                        <div class="insight-title">Budget Efficiency</div>
+                    </div>
+                    <div class="insight-text">
+                        Frosty Market campaign mencapai <span class="insight-highlight">CPC lebih rendah (Rp 1,545)</span> dengan CTR 2.08%, menunjukkan Christmas-themed event lebih menarik untuk seasonal tenants.
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <div class="insight-icon-lg">📈</div>
+                        <div class="insight-title">Scaling Opportunity</div>
+                    </div>
+                    <div class="insight-text">
+                        Golden Lunar campaign mencapai <span class="insight-highlight">reach 2.3x lebih besar</span> dengan budget yang lebih tinggi, ideal untuk cultural events dengan tenant demand tinggi.
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <div class="insight-icon-lg">⚠️</div>
+                        <div class="insight-title">Conversion Gap</div>
+                    </div>
+                    <div class="insight-text">
+                        Dengan <span class="insight-highlight">219 clicks total tanpa leads</span>, landing page atau formulir tenant registration perlu optimasi untuk meningkatkan conversion rate.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommendations -->
+            <div class="recommendations">
+                <h2 class="recommendations-title">🚀 Strategic Recommendations</h2>
+                <div class="recommendation-list">
+                    <div class="recommendation-item">
+                        <div class="recommendation-number">01</div>
+                        <div class="recommendation-content">
+                            <div class="recommendation-title-text">Focus on Female Entrepreneurs 25-44</div>
+                            <div class="recommendation-desc">Target utama untuk future campaigns. Gunakan messaging yang menekankan community building, networking opportunities, dan event exposure untuk brand mereka.</div>
+                        </div>
+                    </div>
+                    <div class="recommendation-item">
+                        <div class="recommendation-number">02</div>
+                        <div class="recommendation-content">
+                            <div class="recommendation-title-text">Optimize Landing Page for Conversions</div>
+                            <div class="recommendation-desc">Buat dedicated landing page dengan tenant success stories, pricing tiers, booth photos, dan simplified registration form untuk meningkatkan lead capture.</div>
+                        </div>
+                    </div>
+                    <div class="recommendation-item">
+                        <div class="recommendation-number">03</div>
+                        <div class="recommendation-content">
+                            <div class="recommendation-title-text">Leverage Seasonal Events</div>
+                            <div class="recommendation-desc">Christmas dan Lunar New Year terbukti efektif. Plan early untuk event besar lainnya: Ramadan Bazaar, Back to School, Mid-Autumn Festival untuk maximize tenant interest.</div>
+                        </div>
+                    </div>
+                    <div class="recommendation-item">
+                        <div class="recommendation-number">04</div>
+                        <div class="recommendation-content">
+                            <div class="recommendation-title-text">Implement Retargeting Strategy</div>
+                            <div class="recommendation-desc">Setup pixel tracking untuk retarget 219 clickers dengan special offers, early bird discounts, atau limited booth availability messaging.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 2: FROSTY MARKET -->
+        <div id="frosty" class="page">
+            <div class="page-header">
+                <h1 class="page-title">Frosty Christmas Market</h1>
+                <p class="page-subtitle">Campaign Report • December 2025</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-label">Budget Spent</div>
+                    <div class="stat-value">Rp 159K</div>
+                    <div class="stat-subtext">35.3% of total budget</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-label">Reach</div>
+                    <div class="stat-value">4,032</div>
+                    <div class="stat-subtext">Unique business owners</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">👁️</div>
+                    <div class="stat-label">Impressions</div>
+                    <div class="stat-value">4,960</div>
+                    <div class="stat-subtext">Total ad views</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🖱️</div>
+                    <div class="stat-label">Link Clicks</div>
+                    <div class="stat-value">103</div>
+                    <div class="stat-subtext">Interested prospects</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-label">CTR</div>
+                    <div class="stat-value">2.08%</div>
+                    <div class="stat-subtext">Click-through rate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💵</div>
+                    <div class="stat-label">CPC</div>
+                    <div class="stat-value">Rp 1,545</div>
+                    <div class="stat-subtext">Cost per click</div>
+                </div>
+            </div>
+
+            <!-- Demographics -->
+            <div class="chart-section">
+                <div class="chart-header">
+                    <h2 class="chart-title">👥 Tenant Owner Demographics</h2>
+                    <div class="chart-tag">Frosty Market</div>
+                </div>
+                <div class="bar-chart">
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span class="bar-label-text">Age 35-44</span>
+                            <span class="bar-label-value">41.7%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 41.7%;">
+                                <span class="bar-percentage">43 clicks</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span class="bar-label-text">Age 25-34</span>
+                            <span class="bar-label-value">27.2%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 27.2%;">
+                                <span class="bar-percentage">28 clicks</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span class="bar-label-text">Age 45-54</span>
+                            <span class="bar-label-value">19.4%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 19.4%;">
+                                <span class="bar-percentage">20 clicks</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-header">
+                    <h2 class="chart-title">Gender Distribution</h2>
+                </div>
+                <div class="bar-chart">
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span class="bar-label-text">👩‍💼 Female</span>
+                            <span class="bar-label-value">75.2%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 75.2%;">
+                                <span class="bar-percentage">80 clicks</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span class="bar-label-text">👨‍💼 Male</span>
+                            <span class="bar-label-value">24.0%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 24.0%;">
+                                <span class="bar-percentage">21 clicks</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Insights -->
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <div class="insight-icon-lg">🎄</div>
+                        <div class="insight-title">Christmas Appeal</div>
+                    </div>
+                    <div class="insight-text">
+                        CTR 2.08% menunjukkan <span class="insight-highlight">Christmas-themed event sangat menarik</span> untuk F&B dan retail tenants yang ingin capitalize seasonal shopping traffic.
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <div class="insight-icon-lg">💼</div>
+                        <div class="insight-title">Established Entrepreneurs</div>
+                    </div>
+                    <div class="insight-text">
+                        Age 35-44 mendominasi (41.7% clicks), menunjukkan <span class="insight-highlight">established business owners</span> lebih tertarik dengan Christmas market opportunities.
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <div class="insight-icon-lg">👩</div>
+                        <div class="insight-title">Female-Dominated Response</div>
+                    </div>
+                    <div class="insight-text">
+                        75% engagement dari female entrepreneurs, ideal untuk <span class="insight-highlight">fashion, crafts, beauty, dan F&B</span> tenant recruitment.
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <div class="insight-icon-lg">💰</div>
+                        <div class="insight-title">Cost Efficient</div>
+                    </div>
+                    <div class="insight-text">
+                        CPC Rp 1,545 adalah <span class="insight-highlight">38% lebih murah</span> dibanding Golden Lunar, menunjukkan high intent audience untuk seasonal events.
+                    </div>
+                </div>
+            </div>
+
+            <div class="recommendations">
+                <h2 class="recommendations-title">🎯 Frosty Market Insights</h2>
+                <div class="recommendation-list">
+                    <div class="recommendation-item">
+                        <div class="recommendation-number">01</div>
+                        <div class="recommendation-content">
+                            <div class="recommendation-title-text">Perfect for Seasonal Tenants</div>
+                            <div class="recommendation-desc">High CTR (2.08%) dan low CPC menunjukkan Christmas market sangat appealing untuk tenants dengan seasonal products. Prioritize ini untuk future holiday events.</div>
+                        </div>
+                    </div>
+                    <div class="recommendation-item">
+                        <div class="recommendation-number">02</div>
+                        <div class="recommendation-content">
+                            <div class="recommendation-title-text">Target Established Female Entrepreneurs</div>
+                            <div class="recommendation-desc">75% female engagement aged 35-44 suggests messaging should emphasize: professional setup, high foot traffic, family-friendly environment, dan networking opportunities.</div>
+                        </div>
+                    </div>
+                    <div class="recommendation-item">
+                        <div class="recommendation-number">03</div>
+                        <div class="recommendation-content">
+                            <div class="recommendation-title-text">Early Planning for Next Year</div>
+                            <div class="recommendation-desc">Mulai recruitment campaign 2-3 bulan sebelum Christmas 2026 untuk maximize booth reservations. Consider multi-tier pricing: early bird, standard, last minute.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 3: GOLDEN LUNAR -->
+        <div id="lunar" class="page">
+            <div class="page-header">
+                <h1 class="page-title">Golden Lunar Serenity</h1>
+                <p class="page-subtitle">Campaign Report • January - February 2026</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-label">Budget Spent</div>
+                    <div class="stat-value">Rp 291K</div>
+                    <div class="stat-subtext">64.7% of total budget</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-label">Reach</div>
+                    <div class="stat-value">9,470</div>
+                    <div class="stat-subtext">Unique business owners</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">👁️</div>
+                    <div class="stat-label">Impressions</div>
+                    <div class="stat-value">12,346</div>
+                    <div class="stat-subtext">Total ad views</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🖱️</div>
+                    <div class="stat-label">Link Clicks</div>
+                    <div class="stat-value">116</div>
+                    <div class="stat-subtext">Interested prospects</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-label">CTR</div>
+                    <div class="stat-value">0.94%</div>
+                    <div class="stat-subtext">Click-through rate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💵</div>
+                    <div class="stat-label">CPC</div>
+                    <div class="stat-value">Rp 2,511</div>
+                    <div class="stat-subtext">Cost per click</div>
+                </div>
+            </div>
+
+            <!-- Demographics -->
+            <div class="chart-section">
+                <div class="chart-header">
+                    <h2 class="chart-title">👥 Tenant Owner Demographics</h2>
+                    <div class="chart-tag">Golden Lunar</div>
+                </div>
+                <div class="bar-chart">
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span class="bar-label-text">Age 25-34</span>
+                            <span class="bar-label-value">39.7%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 39.7%;">
+                                <span class="bar-percentage">46 clicks</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span class="bar-label-text">Age 35-44</span>
+                            <span class="bar-label-value">36.2%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 36.2%;">
+                                <span class="bar-percentage">42 clicks</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span class="bar-label-text">Age 18-24</span>
+                            <span class="bar-label-value">12.9%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 12.9%;">
+                                <span class="bar-percentage">15 clicks</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-header">
+                    <h2 class="chart-title">Gender Distribution</h2>
+                </div>
+                <div class="bar-chart">
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span class="bar-label-text">👩‍💼 Female</span>
+                            <span class="bar-label-value">67.5%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 67.5%;">
+                                <span class="bar-percentage">83 clicks</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span class="bar-label-text">👨‍💼 Male</span>
+                            <span class="bar-label-value">31.8%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 31.8%;">
+                                <span class="bar-percentage">31 clicks</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ad Set Performance -->
+            <div class="chart-section">
+                <div class="chart-header">
+                    <h2 class="chart-title">📱 Ad Format Performance</h2>
+                </div>
+                <div class="comparison-grid" style="margin-top: 24px;">
+                    <div class="comparison-card winner">
+                        <div class="comparison-badge">Best Volume</div>
+                        <h3 class="comparison-title">📄 Static Post</h3>
+                        <div class="comparison-stat">
+                            <span class="comparison-stat-label">Budget</span>
+                            <span class="comparison-stat-value">Rp 232,847</span>
+                        </div>
+                        <div class="comparison-stat">
+                            <span class="comparison-stat-label">Reach</span>
+                            <span class="comparison-stat-value">8,182</span>
+                        </div>
+                        <div class="comparison-stat">
+                            <span class="comparison-stat-label">Clicks</span>
+                            <span class="comparison-stat-value">99</span>
+                        </div>
+                        <div class="comparison-stat">
+                            <span class="comparison-stat-label">CPM</span>
+                            <span class="comparison-stat-value">Rp 22,344</span>
+                        </div>
+                    </div>
+                    <div class="comparison-card">
+                        <h3 class="comparison-title">🎥 Video Ad</h3>
+                        <div class="comparison-stat">
+                            <span class="comparison-stat-label">Budget</span>
+                            <span class="comparison-stat-value">Rp 58,483</span>
+                        </div>
+                        <div class="comparison-stat">
+                            <span class="comparison-stat-label">Reach</span>
+                            <span class="comparison-stat-value">1,288</span>
+                        </div>
+                        <div class="comparison-stat">
+                            <span class="comparison-stat-label">Clicks</span>
+                            <span class="comparison-stat-value">17</span>
+                        </div>
+                        <div class="comparison-stat">
+                            <span class="comparison-stat-label">CPM</span>
+                            <span class="comparison-stat-value">Rp 30,381</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Insights -->
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <div class="insight-icon-lg">🧧</div>
+                        <div class="insight-title">Cultural Event Reach</div>
+                    </div>
+                    <div class="insight-text">
+                        Mencapai <span class="insight-highlight">9,470 potential tenants</span> - 2.3x lebih besar dari Frosty Market. Lunar New Year event attract massive interest untuk Chinese-themed products dan F&B.
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <div class="insight-icon-lg">🚀</div>
+                        <div class="insight-title">Young Entrepreneurs</div>
+                    </div>
+                    <div class="insight-text">
+                        Age 25-34 dominates (39.7%), menunjukkan <span class="insight-highlight">younger business owners</span> tertarik dengan cultural events untuk test products mereka.
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <div class="insight-icon-lg">📱</div>
+                        <div class="insight-title">Static Posts Win</div>
+                    </div>
+                    <div class="insight-text">
+                        Static posts deliver <span class="insight-highlight">85% of total clicks</span> dengan CPM 26% lebih rendah. Format ini lebih efektif untuk tenant recruitment messaging.
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <div class="insight-icon-lg">📈</div>
+                        <div class="insight-title">Scaling Potential</div>
+                    </div>
+                    <div class="insight-text">
+                        Dengan budget lebih besar, campaign ini prove <span class="insight-highlight">scalability untuk major cultural events</span>. ROI dapat ditingkatkan dengan better landing page.
+                    </div>
+                </div>
+            </div>
+
+            <div class="recommendations">
+                <h2 class="recommendations-title">🧧 Golden Lunar Insights</h2>
+                <div class="recommendation-list">
+                    <div class="recommendation-item">
+                        <div class="recommendation-number">01</div>
+                        <div class="recommendation-content">
+                            <div class="recommendation-title-text">Leverage Cultural Events untuk Volume</div>
+                            <div class="recommendation-desc">Lunar New Year, Mid-Autumn, Dragon Boat Festival - events ini attract younger entrepreneurs (25-34) yang ingin test cultural products. Allocate bigger budget untuk events ini.</div>
+                        </div>
+                    </div>
+                    <div class="recommendation-item">
+                        <div class="recommendation-number">02</div>
+                        <div class="recommendation-content">
+                            <div class="recommendation-title-text">Focus on Static Post Creative</div>
+                            <div class="recommendation-desc">Static posts outperform video dengan 85% clicks dan lower CPM. Invest in high-quality design showcasing: booth layouts, past tenant success, foot traffic data, pricing tiers.</div>
+                        </div>
+                    </div>
+                    <div class="recommendation-item">
+                        <div class="recommendation-number">03</div>
+                        <div class="recommendation-content">
+                            <div class="recommendation-title-text">Create Tenant Packages</div>
+                            <div class="recommendation-desc">Dengan 116 clicks tapi zero leads, buat compelling offer: booth + marketing support, early setup access, featured placement options. Simplify booking process dengan clear CTA.</div>
+                        </div>
+                    </div>
+                    <div class="recommendation-item">
+                        <div class="recommendation-number">04</div>
+                        <div class="recommendation-content">
+                            <div class="recommendation-title-text">Plan for Imlek 2027 Early</div>
+                            <div class="recommendation-desc">Campaign masih running menjelang 14 Feb. Track conversion post-event, survey tenant satisfaction, dan use testimonials untuk recruitment campaign tahun depan starting October 2026.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
